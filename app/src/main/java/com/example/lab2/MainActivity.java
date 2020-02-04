@@ -20,11 +20,10 @@ public class MainActivity extends AppCompatActivity {
     private enum Weapon{
         ROCK("Rock"),
         PAPER("Paper"),
-        SCISSORS("Scissors")
+        SCISSORS("Scissors");
 
         //Constructor
         private String message;
-        private int possition;
         private Weapon(String msg) { message = msg;}
 
         @Override
