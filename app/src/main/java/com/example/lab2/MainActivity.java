@@ -20,18 +20,35 @@ public class MainActivity extends AppCompatActivity {
     private enum Weapon{
         ROCK("Rock"),
         PAPER("Paper"),
-        SCISSORS("Scissors");
+        SCISSORS("Scissors")
 
+        //Constructor
         private String message;
-        private Weapon(String msg) { message = msg; }
+        private int possition;
+        private Weapon(String msg) { message = msg;}
 
         @Override
         public String toString() { return message; }
+
+
+        //Get Winner
+        public static Weapon winner(Weapon weapon){
+            return null;
+        }
+
+        public static Weapon getRandomWeapon(){
+            Random r = new Random();
+            Weapon[] weaponslist = Weapon.values();
+
+            return weaponslist[r.nextInt()];
+        }
     }
 
     private TextView text_scoreComp, text_scorePlayer, text_playerChoice, text_computerChoice, text_results;
 
     private int compScore, playerScore = 0;
+
+    private Weapon playerWeapon, compWeapon = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,20 +76,24 @@ public class MainActivity extends AppCompatActivity {
         setScoreText();
     }
 
-    private Weapon getRandomWeapon(){
-
-       Random r = new Random();
-       Weapon[] weaponslist = Weapon.values();
-
-       return weaponslist[r.nextInt()];
-    }
-
     private void setScoreText(){
         String StringCompScore = "Computer: ".concat(Integer.toString(compScore));
         String StringPlayerScore = "Player: ".concat(Integer.toString(playerScore));
 
         text_scoreComp.setText(StringCompScore);
-        text_scorePlayer.setText(StringCompScore);
+        text_scorePlayer.setText(StringPlayerScore);
+    }
+
+    private void onClickRock(View view){
+
+    }
+
+    private void onClickPaper(View view){
+
+    }
+
+    private void onClickSissors(View view){
+
     }
 
     @Override
