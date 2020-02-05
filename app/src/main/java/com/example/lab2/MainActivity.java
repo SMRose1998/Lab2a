@@ -21,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private enum Weapon{
         ROCK("Rock", "Scissors"),
         PAPER("Paper", "Rock"),
-        SCISSORS("Scissors","Paper");
+        SCISSORS("Scissors","Paper"),
+        GUN("Gun","All");
 
         //Constructor
         private String id, winsAgainst;
@@ -33,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Get Winner (Returns Null if Tied)
         public Boolean winsAgainst(Weapon weapon){
+            if(this.winsAgainst == weapon.id||this == Weapon.GUN) return true;
             if(weapon == this) return null;
-            if(this.winsAgainst == weapon.id) return true;
             return false;
         }
 
@@ -43,15 +44,16 @@ public class MainActivity extends AppCompatActivity {
             Random r = new Random();
             Weapon[] weaponslist = Weapon.values();
 
-            return weaponslist[r.nextInt(weaponslist.length)];
+            return weaponslist[r.nextInt(weaponslist.length-1)];
         }
     }
 
-    private TextView text_scoreComp, text_scorePlayer, text_playerChoice, text_computerChoice, text_results;
+    private TextView text_scoreComp, text_scorePlayer, text_playerChoice, text_computerChoice, text_results, text_easterEgg;
 
-    private int compScore, playerScore = 0;
+    private int compScore, playerScore, easterEgg = 0;
 
     private Weapon playerWeapon, compWeapon = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         text_playerChoice = findViewById(R.id.text_playerChoice);
         text_computerChoice = findViewById(R.id.text_computerChoice);
         text_results = findViewById(R.id.text_results);
+        text_easterEgg = findViewById(R.id.text_easterEgg);
 
         setScoreText();
     }
@@ -99,7 +102,26 @@ public class MainActivity extends AppCompatActivity {
         execute(Weapon.SCISSORS);
     }
 
+
+    public void easterEgg(View view){
+        easterEgg++;
+        String str;
+        execute(Weapon.GUN);
+        if(easterEgg<3){
+            str = "Hey!! You can't use gun, that's cheating!!!";
+        }else if(easterEgg<6){
+            str = "Seriously, I'm gonna tell mom";
+        }else if(easterEgg<10){
+            str = ">:(";
+        }else{
+            str = ">>>:(";
+        }
+        text_easterEgg.setText(str);
+        playerScore++;
+    }
+
     private void execute(Weapon w){
+        try{text_easterEgg.setText("");}catch(Exception e){};//So the program doesn't get angry uwu
         playerWeapon = w;
         compWeapon = Weapon.getRandomWeapon();
         Boolean playerWins = playerWeapon.winsAgainst(compWeapon);

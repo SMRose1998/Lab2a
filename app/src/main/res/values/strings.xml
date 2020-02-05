@@ -5,4 +5,5 @@
     <string name="rock">Rock</string>
     <string name="choose_your_weapon">Choose your weapon!</string>
     <string name="paper">Paper</string>
+    <string name="gun">🔫</string>
 </resources>
