@@ -17,29 +17,33 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private enum Weapon{
-        ROCK("Rock"),
-        PAPER("Paper"),
-        SCISSORS("Scissors");
+        ROCK("Rock", "Scissors"),
+        PAPER("Paper", "Rock"),
+        SCISSORS("Scissors","Paper");
 
         //Constructor
-        private String message;
-        private Weapon(String msg) { message = msg;}
+        private String id, winsAgainst;
+        private Weapon(String msg, String win) { id = msg; winsAgainst = win;}
 
         @Override
-        public String toString() { return message; }
+        public String toString() { return id; }
 
 
-        //Get Winner
-        public static Weapon winner(Weapon weapon){
-            return null;
+        //Get Winner (Returns Null if Tied)
+        public Boolean winsAgainst(Weapon weapon){
+            if(weapon == this) return null;
+            if(this.winsAgainst == weapon.id) return true;
+            return false;
         }
 
+        //Get Random Weapon
         public static Weapon getRandomWeapon(){
             Random r = new Random();
             Weapon[] weaponslist = Weapon.values();
 
-            return weaponslist[r.nextInt()];
+            return weaponslist[r.nextInt(weaponslist.length)];
         }
     }
 
@@ -83,15 +87,51 @@ public class MainActivity extends AppCompatActivity {
         text_scorePlayer.setText(StringPlayerScore);
     }
 
-    private void onClickRock(View view){
+    public void onClickRock(View view){
+        execute(Weapon.ROCK);
+    }
+
+    public void onClickPaper(View view){
+        execute(Weapon.PAPER);
+    }
+
+    public void onClickSissors(View view){
+        execute(Weapon.SCISSORS);
+    }
+
+    private void execute(Weapon w){
+        playerWeapon = w;
+        compWeapon = Weapon.getRandomWeapon();
+        Boolean playerWins = playerWeapon.winsAgainst(compWeapon);
+        if(playerWins==null) {
+            tie();
+        }
+        else{
+            if(playerWins){
+                win();
+            }
+            else{
+                lose();
+            }
+        }
+
+        text_playerChoice.setText("Player Chooses ".concat(playerWeapon.id));
+        text_computerChoice.setText("Computer Chooses ".concat(compWeapon.id));
+        setScoreText();
+
 
     }
 
-    private void onClickPaper(View view){
-
+    private void tie(){
+        text_results.setText("It's A Tie!!!");
     }
-
-    private void onClickSissors(View view){
+    private void win(){
+        text_results.setText("Player Wins!!!");
+        playerScore++;
+    }
+    private void lose(){
+        text_results.setText("Computer Wins!!!");
+        compScore++;
 
     }
 
